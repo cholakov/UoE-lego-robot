@@ -62,19 +62,14 @@ def goTo(arena, origin, target):
 					if arena[b][a][0] != 1: 			# neighbor node isn't free space
 						continue
 
-					name = "x{0}y{1}".format(a,b)
-					neighbors[name] = 1
+					neighbors[(a,b)] = 1
 				
-				name = "x{0}y{1}".format(x,y)
-				graph[name] = neighbors
+				graph[(x,y)] = neighbors
 
-	start = "x{0}y{1}".format(origin[0],origin[1])
-	end = "x{0}y{1}".format(target[0],target[1])
-
-	dist, pred = dijkstra(graph, start=start)
+	dist, pred = dijkstra(graph, start=origin)
 
 	print("Going from {0} to {1}, the shortest path is:".format(origin, target))
-	print(shortest_path(graph, start, end))
+	print(shortest_path(graph, origin, target))
 
 	
 
