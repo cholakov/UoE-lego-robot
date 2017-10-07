@@ -11,10 +11,13 @@ class Whiskers(Sensors):
 
 class IR(Sensors):
 	def __init__(self):
+		continue
 
 class Sonar(Sensors):
 	def __init__(self):
-
+		continue
 
 class Pedometer(Sensors):
+	""" Implements the hall effect sensor"""
 	def __init__(self):
+		continue
