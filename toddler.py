@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 __TODDLER_VERSION__="1.0.0"
 
-import interface.config
+from interface import config
 
-import algorithms.pathFinder
+from algorithms.pathFinder import goHome, goTo, explore
 
 
 # Hardware test code
@@ -21,5 +21,4 @@ class Toddler:
         	print("In Control")
 
 
-
-
+goTo(config.arena, (7,2), (26,8))
