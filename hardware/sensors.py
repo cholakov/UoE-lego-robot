@@ -1,5 +1,3 @@
-
-
 class Whiskers():
 	def __init__(self):
 		print("Initializing Whiskers")
@@ -24,7 +22,7 @@ class Hall():
 		:param distance: in cm how much distance you want to cover
 		:return:
 		"""
-        # 5.6 signals from the hall effect per meter, or 17.8 cm per signal
+		# 5.6 signals from the hall effect per meter, or 17.8 cm per signal
 
 		# rotations = (distance / (2*np.pi*0.041))      #radius of the wheel = 4.1cm = 0.041m, gearRatio = 0.4
 		# rotations = rotations / 0.4
@@ -33,11 +31,11 @@ class Hall():
 		rotations = distance / self.DEFINITION
 
 		while rotations > 0 :
-        	digital = self.IO.getInputs()
-        	if digital[7] :        #if the hall effect value is true
-        	    rotations = rotations - 1   # take one rotation off
-        	while digital[7]:
-                pass
+			digital = self.IO.getInputs()
+			if digital[7] :        #if the hall effect value is true
+				rotations = rotations - 1   # take one rotation off
+			while digital[7]:
+				pass
 
 class Light():
 	def __init__(self):
