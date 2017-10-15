@@ -12,7 +12,7 @@ class Sonar():
 
 
 class Hall():
-	def __init__(self):
+	def __init__(self, IO):
 		self.IO = IO
 		self.DEFINITION = 17.8 # centimeters covered between two signals from the hall effect
 

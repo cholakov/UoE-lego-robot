@@ -26,10 +26,10 @@ class Driver():
 		:theta: target orientation in the Arena Coordinate Systems
 		"""
 		x, y, theta = pose
-		print(" Going to " + pose)
+		print(" Going to " + str(pose))
 
 		self.motors.go()
-		self.hall.measure(100)
+		self.hall.measure(500)
 		self.motors.stop()
 
 

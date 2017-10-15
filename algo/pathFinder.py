@@ -4,7 +4,7 @@ from dijkstra import dijkstra, shortest_path
 from algo.driver import Driver
 
 
-print("Called pathfinder module.")
+print("[INFO] Pathfinder module started.")
 
 class pathFinder():
 	def __init__(self, IO, origin=None, target=None):
@@ -17,10 +17,10 @@ class pathFinder():
 		self.IO = IO
 		self.driver = Driver(self.IO)
 
-	def goHome():
+	def goHome(self):
 		print("goHome")
 
-	def goTo(arena, origin, target):
+	def goTo(self, arena, origin, target):
 		"""
 		Given coordinates, rotate itself to face in that direction.
 		Useful for connecting to a satellite.
@@ -84,12 +84,7 @@ class pathFinder():
 		print(shortest_path(graph, origin, target))
 
 
-	def explore(arena, objective=None):
+	def explore(self, objective=None):
 		""" Navigate the space until some objective is achieved, i.e. found reflective tape on the ground. """
 		print("Exploring")
-
 		self.driver.goTo((1,1,0))
-
-
-
-

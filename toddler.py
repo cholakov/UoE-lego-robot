@@ -23,5 +23,9 @@ class Toddler:
     	while OK():
         	continue
 
+    def Vision(self, OK):
+        while OK():
+        	continue
+
 
 # goTo(config.arena, (7,2), (26,8))
