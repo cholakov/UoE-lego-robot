@@ -15,13 +15,14 @@ class Toddler:
     # It has its dedicated thread so you can keep block it.
     def Control(self, OK):
 
-        mission = pathFinder(self.IO)
-        mission.origin = (1,1,0)
-        mission.target = (1,10,0)
-        mission.explore()
+        # mission = pathFinder(self.IO)
+        # mission.origin = (1,1,0)
+        # mission.target = (1,10,0)
+        # mission.explore()
 
     	while OK():
-        	continue
+            analog = self.IO.getSensors()
+            print(analog)
 
     def Vision(self, OK):
         while OK():

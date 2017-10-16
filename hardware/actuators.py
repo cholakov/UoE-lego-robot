@@ -8,7 +8,7 @@ class Motors:
 		# In line of movement (with the battery ahead), the left motor is faster.
 		# In the IO tuple, the left motor is the second value.
 		self.FILTER_RIGHT = 1.0
-		self.FILTER_LEFT = 0.70
+		self.FILTER_LEFT = 1
 
 	def go(self):
 		self.IO.setMotors(self.speed*self.FILTER_RIGHT,self.speed*self.FILTER_LEFT)

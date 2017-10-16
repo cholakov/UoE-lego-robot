@@ -40,3 +40,19 @@ class Hall():
 class Light():
 	def __init__(self):
 		print("Initializing Light")
+
+
+# random location
+# 175 84
+# 187 75
+# 166, 74
+# 163, 70
+#
+# docking station
+# 303 130
+# 294 130
+# 291, 131
+#
+# reflective tape
+# 655 512
+# 638 394
