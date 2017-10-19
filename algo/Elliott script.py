@@ -7,72 +7,66 @@ class Toddler:
     # Initialiser
     def __init__(self,IO):
         # Print a message
-        print "Hey, I'm alive!"
+        print 'I am a toddler playing in a sandbox'
         # Store the instance of IO for later
         self.IO=IO
         self.IO.servoEngage()
-        rotations = 0
+        # Add more initialisation code here
 
+    # This is a callback that will be called repeatedly.
+    # It has its dedicated thread so you can keep blocking it.
 
-    def Hall(self,distance,direction):
-        if direction == "forth":
-            self.IO.setMotors(30,40)          # 1=forward, 2=backwards
-        elif direction == "back":
-            self.IO.setMotors(-100,-100)
+######################################################
+    def Turn(self,angle):
+        t = (float(angle)/90) * 2.125
 
-        # num of rotations to cover 1 meter distance
-        rotations = (distance / (2*np.pi*0.041))      #radius of the wheel = 4.1cm = 0.041m, gearRatio = 0.4
-        rotations = rotations / 0.4
-        rotations = (2*rotations) / 3
+        start = time.time()
+        end = time.time()
+        while end - start < t:
 
-        rotations  = 5.6
-        while rotations > 0 :
-            digital = self.IO.getInputs()
-            if digital[7] :        #if the hall effect value is true
-                rotations = rotations - 1
-            # Ignore consecutive True readings from hall effect, until at least one False reading
-            # This is necessary because Hall sends 2-3 True readings one after another which screws up the interpretation
-            while digital[7]:
-                pass
-
-            print rotations
-
-        self.IO.setMotors(0,0)		#stop motors after movement
-
-    def HallAngle(self,angle):
-        self.IO.setMotors(100,-80)
-        distance = (2*np.pi*0.19) / (360/angle)
-        rotations = (distance / (2*np.pi*0.041)) / 0.4
-
-        while rotations>0:
-            digital = self.IO.getInputs()
-            print digital
-            if digital[7]:
-                print rotations
-                rotations = rotations -1
-            while digital[7]:
-                pass
-
-            print rotations
+            self.IO.setMotors(-60,60)
+            end = time.time()
         self.IO.setMotors(0,0)
 
 
-    def satilliteFinder(self,opposite,adjacent):
+    def antenna(self,o,a):
+        calibration = 7
+        self.IO.servoSet(0)
+        time.sleep(1.0)
+        angle = np.arctan(o/a)
+        angle = np.rad2deg(angle)
+        self.IO.servoSet(int(angle) - calibration)    # bit off because of the gear ratio, maybe -4
 
-         self.IO.servoSet(0)
-         time.sleep(1.0)
-         position = np.arctan(opposite/adjacent)
-         position =np.rad2deg(position)
-         print position
-         self.IO.servoSet(position)
+    def distance(self,distance):    # random time test method
+
+        t = 2
+
+        start = time.time()
+        end = time.time()
+        while end - start < t:
+            print (end-start)
+            self.IO.setMotors(60,60)
+            end = time.time()
+        self.IO.setMotors(0,0)
 
 
     def Control(self, OK):
-        self.Hall(1, "forth")
-        #self.HallAngle(90,1.25,0.64)
-        while OK():
-            continue
 
+        self.Turn(90)
+        self.antenna(1.25,0.9)
+        self.distance(20)
+        while OK():
+            pass
+        
+#####################################################
+
+
+    # This is a callback that will be called repeatedly.
+    # It has its dedicated thread so you can keep blocking it.
     def Vision(self, OK):
         while OK():
-            continue
+            # Add vision code here
+            time.sleep(0.05)
+
+
+
