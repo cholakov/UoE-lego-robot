@@ -1,3 +1,5 @@
+import time
+
 class Motors:
 	def __init__(self, IO):
 		self.IO = IO
@@ -9,12 +11,13 @@ class Motors:
 		self.FILTER_LEFT = 1
 
 	def go(self):
+		print("Going straight ahead.")
 		self.IO.setMotors(self.speed*self.FILTER_RIGHT,self.speed*self.FILTER_LEFT)
 
 	def back(self):
 		self.IO.setMotors(-self.speed*self.FILTER_RIGHT,-self.speed*self.FILTER_LEFT)
 
-	def turn(self, angle, onSpot=True):
+	def turn(self, angle, direction, onSpot=True):
 		""" 
 		Turn to a specified angle. 
 		Positive numbers turn right.
@@ -22,6 +25,8 @@ class Motors:
 		Optionally, specify whether to turn on spot (sets speed to 0). 
 
 		"""
+
+		print("Turning {0} degrees {1}".format(angle, direction))
 
 		calibration = 90	# when you ask it to turn 90 how many degrees does it go
 		angle = (90/calibration*angle)
@@ -31,12 +36,18 @@ class Motors:
 		if onSpot==True:
 			self.stop()
 			while end - start < t:
-				self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
+				if direction == "left":
+					self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
+				elif direction == "right":
+					self.IO.setMotors(self.speed*self.FILTER_RIGHT, -self.speed*self.FILTER_LEFT)
 				end = time.time()
 			self.go()
 		else:
 			while end - start < t:
-				self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
+				if direction == "left":
+					self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
+				elif direction == "right":
+					self.IO.setMotors(self.speed*self.FILTER_RIGHT, -self.speed*self.FILTER_LEFT)
 				end = time.time()
 
 	def stop(self):

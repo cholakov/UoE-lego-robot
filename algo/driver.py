@@ -1,6 +1,6 @@
 
-from hardware.actuators import Motors
-from hardware.sensors import Hall
+from actuators import Motors
+from sensors import Hall
 
 
 class Driver():

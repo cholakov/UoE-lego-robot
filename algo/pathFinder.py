@@ -3,7 +3,8 @@ import heapq
 from dijkstra import dijkstra, shortest_path
 from algo.driver import Driver
 from algo.obstacleAvoidance import obstacleAvoidance
-from hardware.sensors import lightSensor
+from algo.sensors import Sensors
+from time import sleep
 
 class pathFinder():
 	def __init__(self, IO, OK, origin=None, target=None):
@@ -16,9 +17,9 @@ class pathFinder():
 		self.target = target
 		self.IO = IO
 		self.OK = OK
-		self.avoid = obstacleAvoidance(IO, OK)
+		self.obstacleAvoidance = obstacleAvoidance(IO)
 		self.driver = Driver(IO, OK)
-		self.lightSensor = lightSensor(IO, OK)
+		self.sensors = Sensors(IO)
 
 	def pointAntenna(self,o,a):
 		"""
@@ -26,18 +27,12 @@ class pathFinder():
 		a: adjacent (distance from location of the robot to the projection of the satellite on the ground)
 		
 		"""
-        calibration = 7
-        self.IO.servoSet(0)
-        time.sleep(1.0)
-        angle = np.arctan(o/a)
-        angle = np.rad2deg(angle)
-        self.IO.servoSet(int(angle) - calibration)    # bit off because of the gear ratio, maybe -4
-
-
-	def pointDummyAntenna(self):
-        self.IO.servoSet(110)
-        self.IO.servoSet(150)
-
+		calibration = 7
+		self.IO.servoSet(0)
+		time.sleep(1.0)
+		angle = np.arctan(o/a)
+		angle = np.rad2deg(angle)
+		self.IO.servoSet(int(angle) - calibration)    # bit off because of the gear ratio, maybe -4
 
 	def goHome(self):
 		print("goHome")
@@ -114,19 +109,17 @@ class pathFinder():
 		Keep going around.
 		Currently the method is blind to the pose of the robot.
 		"""
-		print("Exploring.")
+		print("He yo! I am on an exploration mission!")
 
-		self.lightSensor.on()
-
-		self.obstacleAvoidance.on()
 		self.driver.go()
 
-		while OK():
-			if self.light.ground == "silver":
+		while self.OK():
+			self.sensors.update()
+			self.obstacleAvoidance.on(self.sensors, self.driver)
+
+			if self.sensors.light == "silver":
+				print("Reflective tape -- stopping!")
 				self.driver.stop()
-				self.pointDummyAntenna()
-				# self.driver.go()
-				
-
-
-
+				sleep(3)
+				# self.pointAntenna()
+				self.driver.go()

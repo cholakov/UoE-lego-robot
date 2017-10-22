@@ -23,7 +23,6 @@ class Toddler:
         start = time.time()
         end = time.time()
         while end - start < t:
-
             self.IO.setMotors(-60,60)
             end = time.time()
         self.IO.setMotors(0,0)
