@@ -2,7 +2,7 @@
 __TODDLER_VERSION__="1.0.0"
 
 import time
-from algo.pathFinder import pathFinder
+from pathFinder import pathFinder
 
 
 
@@ -18,6 +18,10 @@ class Toddler:
     def Control(self, OK):
         mission = pathFinder(self.IO, OK)
         mission.explore()
+        while OK():
+        	continue
+
+
 
     def Vision(self, OK):
         while OK():

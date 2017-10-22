@@ -50,11 +50,13 @@ class Sensors():
 		self.ports["light"]["left"] = 5
 		self.ports["light"]["right"] = 6
 
+		self.IO._interfaceKit.setSensorChangeTrigger(self.ports["sonar"],0)
+
 		self.thresholds["light"]["left"] = [220, 450]		# Provide exactly two values
 		self.thresholds["light"]["right"] = [100, 265]		# Provide exactly two values
-		self.thresholds["sonar"] = 20
-		self.thresholds["ir"]["left"] = 390
-		self.thresholds["ir"]["right"] = 385
+		self.thresholds["sonar"] = 15
+		self.thresholds["ir"]["left"] = 450
+		self.thresholds["ir"]["right"] = 450
 
 	def update(self):
 		analog = self.IO.getSensors()
@@ -65,7 +67,7 @@ class Sensors():
 		self.readings["light"]["left"] = analog[self.ports["light"]["left"]]
 		self.readings["light"]["right"] = analog[self.ports["light"]["right"]]
 		self.readings["ir"]["left"] = analog[self.ports["ir"]["left"]]
-		self.readings["ir"]["right"] = analog[self.ports["light"]["right"]]
+		self.readings["ir"]["right"] = analog[self.ports["ir"]["right"]]
 
 	def light(self):
 		ground = None
@@ -86,15 +88,15 @@ class Sensors():
 
 	def ir(self, side):
 		if side == "left":
-			if self.readings["ir"]["left"] < self.thresholds["ir"]["left"]:
-				print ('Left IR dangerously close.')
+			if self.readings["ir"]["left"] > self.thresholds["ir"]["left"]:
+				print ('Left IR dangerously close ' + str(self.readings["ir"]["left"]))
 				return "danger"
 			else:
 				return self.readings["ir"]["left"]
 
 		elif side == "right":
-			if self.readings["ir"]["right"] < self.thresholds["ir"]["right"]:
-				print ('Right IR dangerously close.')
+			if self.readings["ir"]["right"] > self.thresholds["ir"]["right"]:
+				print ('Right IR dangerously close ' + str(self.readings["ir"]["right"]))
 				return "danger"
 			else:
 				return self.readings["ir"]["right"]

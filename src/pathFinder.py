@@ -1,9 +1,9 @@
 
 import heapq
 from dijkstra import dijkstra, shortest_path
-from algo.driver import Driver
-from algo.obstacleAvoidance import obstacleAvoidance
-from algo.sensors import Sensors
+from driver import Driver
+from obstacleAvoidance import obstacleAvoidance
+from sensors import Sensors
 from time import sleep
 
 class pathFinder():
@@ -111,15 +111,17 @@ class pathFinder():
 		"""
 		print("He yo! I am on an exploration mission!")
 
+
 		self.driver.go()
 
 		while self.OK():
 			self.sensors.update()
-			self.obstacleAvoidance.on(self.sensors, self.driver)
+			self.obstacleAvoidance.check(self.sensors, self.driver)
 
-			if self.sensors.light == "silver":
-				print("Reflective tape -- stopping!")
-				self.driver.stop()
-				sleep(3)
-				# self.pointAntenna()
-				self.driver.go()
+            # # If we detect reflective tape
+			# if self.sensors.light == "silver":
+			# 	print("Reflective tape -- stopping!")
+			# 	self.driver.stop()
+			# 	sleep(3)
+			# 	# self.pointAntenna()
+			# 	self.driver.go()
