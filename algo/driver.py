@@ -8,15 +8,21 @@ class Driver():
 	Driver first receives a map from pathFinder with instructions how to move through space. Then Driver
 	coordinates the actuators to execute the task, returning success on completion.
 	"""
-	def __init__(self, IO):
+	def __init__(self, IO, OK):
 		"""
 		:param route: a dictionary of the path the driver has to follow
 		:return:
 		"""
 		self.IO = IO
+		self.OK = OK
 		self.motors = Motors(self.IO)
 		self.hall = Hall(self.IO)
 
+	def go(self):
+		self.motors.go()
+
+	def stop(self):
+		self.motors.stop()
 
 	def goTo(self, pose):
 		""" 

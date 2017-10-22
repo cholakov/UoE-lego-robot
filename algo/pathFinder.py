@@ -2,20 +2,42 @@
 import heapq
 from dijkstra import dijkstra, shortest_path
 from algo.driver import Driver
-
-
-print("[INFO] Pathfinder module started.")
+from algo.obstacleAvoidance import obstacleAvoidance
+from hardware.sensors import lightSensor
 
 class pathFinder():
-	def __init__(self, IO, origin=None, target=None):
+	def __init__(self, IO, OK, origin=None, target=None):
 		"""
 		Has information of current location using abstract representation.
 		Sends abstract commands to Driver, which will convert them to meters.
 		"""
+		print("Pathfinder module started.")
 		self.origin = origin
 		self.target = target
 		self.IO = IO
-		self.driver = Driver(self.IO)
+		self.OK = OK
+		self.avoid = obstacleAvoidance(IO, OK)
+		self.driver = Driver(IO, OK)
+		self.lightSensor = lightSensor(IO, OK)
+
+	def pointAntenna(self,o,a):
+		"""
+		o: opposite (height ground to ceiling)
+		a: adjacent (distance from location of the robot to the projection of the satellite on the ground)
+		
+		"""
+        calibration = 7
+        self.IO.servoSet(0)
+        time.sleep(1.0)
+        angle = np.arctan(o/a)
+        angle = np.rad2deg(angle)
+        self.IO.servoSet(int(angle) - calibration)    # bit off because of the gear ratio, maybe -4
+
+
+	def pointDummyAntenna(self):
+        self.IO.servoSet(110)
+        self.IO.servoSet(150)
+
 
 	def goHome(self):
 		print("goHome")
@@ -85,6 +107,26 @@ class pathFinder():
 
 
 	def explore(self, objective=None):
-		""" Navigate the space until some objective is achieved, i.e. found reflective tape on the ground. """
-		print("Exploring")
-		self.driver.goTo((1,1,0))
+		""" 
+		Navigate the space avoiding obstacles.
+		Stop on finding reflective tape.
+		Adjust satellite.
+		Keep going around.
+		Currently the method is blind to the pose of the robot.
+		"""
+		print("Exploring.")
+
+		self.lightSensor.on()
+
+		self.obstacleAvoidance.on()
+		self.driver.go()
+
+		while OK():
+			if self.light.ground == "silver":
+				self.driver.stop()
+				self.pointDummyAntenna()
+				# self.driver.go()
+				
+
+
+

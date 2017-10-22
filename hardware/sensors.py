@@ -37,10 +37,32 @@ class Hall():
 			while digital[7]:
 				pass
 
-class Light():
-	def __init__(self):
+class lightSensor():
+	def __init__(self, IO, OK):
+		self.IO = IO
+		self.OK = OK
+		self.thresholds = {
+			"frontL" : [220, 450],
+			"frontR" : [100, 265]
+		}
+		self.ground = None
 		print("Initializing Light")
 
+	def on():
+		print("Scanning the ground for changes in light intensity.")
+		while OK()
+			analog = self.IO.getSensors()
+			frontL = analog[5] 
+			frontR = analog[6]
+
+			if frontL > self.thresholds["frontL"][1]:
+				self.ground == "silver"
+			elif frontL < self.thresholds["frontL"][0]:
+				self.ground == "black"
+			else:
+				self.ground == "grey"
+			
+			# right is 6, left is 5
 
 # random location
 # 175 84

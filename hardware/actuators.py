@@ -1,5 +1,3 @@
-
-
 class Motors:
 	def __init__(self, IO):
 		self.IO = IO
@@ -16,31 +14,41 @@ class Motors:
 	def back(self):
 		self.IO.setMotors(-self.speed*self.FILTER_RIGHT,-self.speed*self.FILTER_LEFT)
 
-	def left(self, onSpot=True):
+	def turn(self, angle, onSpot=True):
 		""" 
-		Turn left. 
+		Turn to a specified angle. 
+		Positive numbers turn right.
+		Negative numbers turn left.
 		Optionally, specify whether to turn on spot (sets speed to 0). 
 
 		"""
 
-	def right(self, onSpot=True):
-		""" 
-		Turn right. 
-		Optionally, specify whether to turn on spot (sets speed to 0). 
-
-		"""
+		calibration = 90	# when you ask it to turn 90 how many degrees does it go
+		angle = (90/calibration*angle)
+		t = (float(angle)/90) * 2.125	# 2.125 is the time it takes to turn 90 degrees
+		start = time.time()
+		end = time.time()
+		if onSpot==True:
+			self.stop()
+			while end - start < t:
+				self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
+				end = time.time()
+			self.go()
+		else:
+			while end - start < t:
+				self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
+				end = time.time()
 
 	def stop(self):
-		print("Stopping")
+		print("Stopping.")
 		self.IO.setMotors(0,0)
-
 
 	def scan360():
 		""" 
 		Perform a full 360 degrees scan.
 
 		"""
-
+		
 class Servo:
 	def __init__(self, IO):
 		self.IO = IO
