@@ -18,9 +18,9 @@ class Motors:
 
 		"""
 		if direction == "left":
-			self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
-		elif direction == "right":
 			self.IO.setMotors(self.speed*self.FILTER_RIGHT, -self.speed*self.FILTER_LEFT)
+		elif direction == "right":
+			self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
 
 	def go(self):
 		print("Going straight ahead.")
@@ -64,7 +64,7 @@ class Motors:
 		"""
 		while True:
 			self._turn(direction)
-			time.sleep(0.75)
+			time.sleep(0.5)
 			try:
 				callback(*param)
 			except InterruptExecution:

@@ -9,8 +9,8 @@ class InterruptExecution (Exception):
 
 class obstacleAvoidance():
 	def __init__(self, IO):
+		print("Obstacle avoidance initialized.")
 		self.IO = IO
-		print("Obstacle avoidance active.")
 
 	def check(self, sensors, driver):
 		# If you see something ahead, turn left until the right IR senses danger from the wall
@@ -21,8 +21,12 @@ class obstacleAvoidance():
 				# 	raise (InterruptExecution('Stop turning! Right IR sees a wall!'))
 				if sensors.sonar != "danger":
 					raise (InterruptExecution('Stop turning! Opening ahead'))
-			driver.motors.turnUntil("left", callback, InterruptExecution, sensors)
-
+			# choose whether to go left or right when there's obstacle ahead
+			# go to the direction which is more open
+			if sensors.ir("left", raw=True) > sensors.ir("right", raw=True):
+				driver.motors.turnUntil("right", callback, InterruptExecution, sensors)
+			else:
+				driver.motors.turnUntil("left", callback, InterruptExecution, sensors)
 
 		if sensors.ir("left") == "danger":
 			def callback(sensors):
@@ -37,9 +41,6 @@ class obstacleAvoidance():
 				if sensors.ir("right") != "danger":
 					raise (InterruptExecution('Stop turning! Right IR sees a wall!'))
 			driver.motors.turnUntil("left", callback, InterruptExecution, sensors)
-
-
-
 
 
 

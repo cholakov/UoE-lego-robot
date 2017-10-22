@@ -55,8 +55,8 @@ class Sensors():
 		self.thresholds["light"]["left"] = [220, 450]		# Provide exactly two values
 		self.thresholds["light"]["right"] = [100, 265]		# Provide exactly two values
 		self.thresholds["sonar"] = 15
-		self.thresholds["ir"]["left"] = 450
-		self.thresholds["ir"]["right"] = 450
+		self.thresholds["ir"]["left"] = 500
+		self.thresholds["ir"]["right"] = 500
 
 	def update(self):
 		analog = self.IO.getSensors()
@@ -86,18 +86,24 @@ class Sensors():
 		else:
 			return self.readings["sonar"]
 
-	def ir(self, side):
+	def ir(self, side, raw=False):
 		if side == "left":
 			if self.readings["ir"]["left"] > self.thresholds["ir"]["left"]:
 				print ('Left IR dangerously close ' + str(self.readings["ir"]["left"]))
-				return "danger"
+				if raw:
+					return self.readings["ir"]["left"]
+				else:
+					return "danger"
 			else:
 				return self.readings["ir"]["left"]
 
 		elif side == "right":
 			if self.readings["ir"]["right"] > self.thresholds["ir"]["right"]:
 				print ('Right IR dangerously close ' + str(self.readings["ir"]["right"]))
-				return "danger"
+				if raw:
+					return self.readings["ir"]["right"]
+				else:
+					return "danger"
 			else:
 				return self.readings["ir"]["right"]
 

@@ -2,34 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43b54bb0-d3e8-411d-88ab-71208418dc8d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/actuators.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/config.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/connect.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/dijkstra.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/driver.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/iotools.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/locator.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/obstacleAvoidance.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/pathFinder.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/pqdict.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sandbox.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sensors.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/toddler.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/_connect.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/actuators.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/dijkstra.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/driver.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/locator.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/obstacleAvoidance.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/pathFinder.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/pqdict.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/algo/sensors.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/iotools.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sandbox.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/toddler.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actuators.py" afterPath="$PROJECT_DIR$/src/actuators.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/obstacleAvoidance.py" afterPath="$PROJECT_DIR$/src/obstacleAvoidance.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pathFinder.py" afterPath="$PROJECT_DIR$/src/pathFinder.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sensors.py" afterPath="$PROJECT_DIR$/src/sensors.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="UoE-lego-robot.iws" />
@@ -51,11 +27,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="toddler.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="toddler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/toddler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.071784645">
-              <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+              <folding>
+                <element signature="e#51#62#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pathFinder.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pathFinder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="83" column="38" selection-start-line="83" selection-start-column="38" selection-end-line="83" selection-end-column="38" />
+              <folding>
+                <element signature="e#1#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="obstacleAvoidance.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/obstacleAvoidance.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-13.5">
+              <caret line="21" column="45" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="actuators.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/actuators.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.18181819">
+              <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sensors.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sensors.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-16.071428">
+              <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -93,6 +113,8 @@
         <option value="$PROJECT_DIR$/src/toddler.py" />
         <option value="$PROJECT_DIR$/src/pathFinder.py" />
         <option value="$PROJECT_DIR$/src/obstacleAvoidance.py" />
+        <option value="$PROJECT_DIR$/src/sensors.py" />
+        <option value="$PROJECT_DIR$/src/actuators.py" />
       </list>
     </option>
   </component>
@@ -451,31 +473,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sensors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pqdict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pathFinder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.08973081">
-          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/obstacleAvoidance.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -501,14 +499,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/actuators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -525,10 +515,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/pathFinder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="83" column="38" selection-start-line="83" selection-start-column="38" selection-end-line="83" selection-end-column="38" />
+          <folding>
+            <element signature="e#1#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/toddler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.071784645">
-          <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+          <folding>
+            <element signature="e#51#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sensors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.071428">
+          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/obstacleAvoidance.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.5">
+          <caret line="21" column="45" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/actuators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18181819">
+          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
           <folding />
         </state>
       </provider>
