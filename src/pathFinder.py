@@ -21,18 +21,47 @@ class pathFinder():
 		self.driver = Driver(IO, OK)
 		self.sensors = Sensors(IO)
 
-	def pointAntenna(self,o,a):
+	def pointAntenna(self,robot_x,robot_y, theta):
 		"""
-		o: opposite (height ground to ceiling)
-		a: adjacent (distance from location of the robot to the projection of the satellite on the ground)
-		
-		"""
+        o: opposite (height ground to ceiling)
+        a: adjacent (distance from location of the robot to the projection of the satellite on the ground)
+
+        """
+
+		satellite_x = -0.69
+		satellite_y = 0
+
+		robot_x = 1.24
+		robot_y = 2.79
+		x = np.arctan((robot_y - satellite_y) / (robot_x - satellite_x))
+		x = np.rad2deg(x)
+		p = 180 - 90 - x  # calculate residual angle to move after theta and 90 have been moved. Direction based on position relative to satellite
+
+		distance = theta + 90 + p
+
+
+		if (robot_x > satellite_x):
+
+			self.driver.motors.turn(distance, 'right')
+
+
+		else:
+			self.driver.motors.turn(distance, 'left')
+
+
+		self.driver.motors.stop()
+
+		o = 2.95
 		calibration = 7
+
+		a = np.power((robot_y - satellite_y),2) + np.power((satellite_x - robot_x),2)
+		a = np.sqrt(a)
+		self.IO.servoEngage()
 		self.IO.servoSet(0)
 		time.sleep(1.0)
-		angle = np.arctan(o/a)
+		angle = np.arctan(o / a)
 		angle = np.rad2deg(angle)
-		self.IO.servoSet(int(angle) - calibration)    # bit off because of the gear ratio, maybe -4
+		self.IO.servoSet(int(angle) - calibration)  # bit off because of the gear ratio = 7
 
 	def goHome(self):
 		print("goHome")
