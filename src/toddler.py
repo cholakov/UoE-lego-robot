@@ -18,6 +18,7 @@ class Toddler:
     def Control(self, OK):
         mission = pathFinder(self.IO, OK)
         mission.explore()
+        #mission.pointAntenna(1.4,1.92,45)
         while OK():
         	continue
 
