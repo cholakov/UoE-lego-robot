@@ -148,9 +148,16 @@ class pathFinder():
 			self.obstacleAvoidance.check(self.sensors, self.driver)
 
             # If we detect reflective tape
-			if self.sensors.light == "silver":
+			self.driver.go()
+			analog =  (self.IO.getSensors())
+			print (analog[4])
+			print (analog[5])
+			if(analog[4] > 380 or analog[5] > 181):
+				self.driver.stop()
+				time.sleep(5)
+			if self.sensors.light == 'silver':
 				print("Reflective tape -- stopping!")
 				self.driver.stop()
-				sleep(3)
+				time.sleep(3)
 				# self.pointAntenna()
 				self.driver.go()
