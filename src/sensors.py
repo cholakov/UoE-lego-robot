@@ -52,8 +52,8 @@ class Sensors():
 
 		self.IO._interfaceKit.setSensorChangeTrigger(self.ports["sonar"],0)
 
-		self.thresholds["light"]["left"] = [220, 450]		# Provide exactly two values
-		self.thresholds["light"]["right"] = [100, 265]		# Provide exactly two values
+		self.thresholds["light"]["left"] = [220, 380]		# Provide exactly two values
+		self.thresholds["light"]["right"] = [100, 181]		# Provide exactly two values
 		self.thresholds["sonar"] = 15
 		self.thresholds["ir"]["left"] = 500
 		self.thresholds["ir"]["right"] = 500
