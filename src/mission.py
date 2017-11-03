@@ -1,10 +1,10 @@
 
-import heapq
 from dijkstra import dijkstra, shortest_path
 from driver import Driver
 from obstacleAvoidance import obstacleAvoidance
 from sensors import Sensors
-from time import sleep
+import time
+import numpy as np
 
 class pathFinder():
 	def __init__(self, IO, OK, origin=None, target=None):
@@ -12,7 +12,7 @@ class pathFinder():
 		Has information of current location using abstract representation.
 		Sends abstract commands to Driver, which will convert them to meters.
 		"""
-		print("Pathfinder module started.")
+		print("Pathfinder started")
 		self.origin = origin
 		self.target = target
 		self.IO = IO
@@ -21,7 +21,7 @@ class pathFinder():
 		self.driver = Driver(IO, OK)
 		self.sensors = Sensors(IO)
 
-	def pointAntenna(self,robot_x,robot_y, theta):
+	def pointAntenna(self, robot_x, robot_y, theta):
 		"""
         o: opposite (height ground to ceiling)
         a: adjacent (distance from location of the robot to the projection of the satellite on the ground)
@@ -31,25 +31,16 @@ class pathFinder():
 		satellite_x = -0.69
 		satellite_y = 0
 
-		robot_x = 1.24
-		robot_y = 2.79
 		x = np.arctan((robot_y - satellite_y) / (robot_x - satellite_x))
 		x = np.rad2deg(x)
 		p = 180 - 90 - x  # calculate residual angle to move after theta and 90 have been moved. Direction based on position relative to satellite
 
 		distance = theta + 90 + p
 
-
 		if (robot_x > satellite_x):
-
-			self.driver.motors.turn(distance, 'right')
-
-
+			self.driver.motors.turn(distance, 'right', onSpot=True)
 		else:
-			self.driver.motors.turn(distance, 'left')
-
-
-		self.driver.motors.stop()
+			self.driver.motors.turn(distance, 'left', onSpot=True)
 
 		o = 2.95
 		calibration = 7
@@ -62,6 +53,9 @@ class pathFinder():
 		angle = np.arctan(o / a)
 		angle = np.rad2deg(angle)
 		self.IO.servoSet(int(angle) - calibration)  # bit off because of the gear ratio = 7
+
+		print("Pointed antenna at angle " + str(angle))
+
 
 	def goHome(self):
 		print("goHome")
@@ -129,8 +123,7 @@ class pathFinder():
 		print("Going from {0} to {1}, the shortest path is:".format(origin, target))
 		print(shortest_path(graph, origin, target))
 
-
-	def explore(self, objective=None):
+	def explore(self):
 		""" 
 		Navigate the space avoiding obstacles.
 		Stop on finding reflective tape.
@@ -138,26 +131,31 @@ class pathFinder():
 		Keep going around.
 		Currently the method is blind to the pose of the robot.
 		"""
+		pause = False
 		print("He yo! I am on an exploration mission!")
-
-
 		self.driver.go()
 
 		while self.OK():
 			self.sensors.update()
 			self.obstacleAvoidance.check(self.sensors, self.driver)
 
+
             # If we detect reflective tape
 			self.driver.go()
-			analog =  (self.IO.getSensors())
-			print (analog[4])
-			print (analog[5])
-			if(analog[4] > 380 or analog[5] > 181):
-				self.driver.stop()
-				time.sleep(5)
-			if self.sensors.light == 'silver':
-				print("Reflective tape -- stopping!")
+			analog = (self.IO.getSensors())
+			# print (analog[4])
+			# print (analog[5])
+			if(analog[4] > 380 or analog[5] > 181) and not pause:
+				print("Reflective tape found.")
 				self.driver.stop()
 				time.sleep(3)
-				# self.pointAntenna()
-				self.driver.go()
+				pause = True
+			if(analog[4] < 380 and analog[5] < 181):
+				pause = False
+
+
+			# if self.sensors.light == 'silver':
+			# 	print("Reflective tape -- stopping!")
+			# 	self.driver.stop()
+			# 	time.sleep(3)
+			# 	self.driver.go()

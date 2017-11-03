@@ -3,7 +3,7 @@ import time
 class Motors:
 	def __init__(self, IO):
 		self.IO = IO
-		self.speed = 50
+		self.speed = 90
 		# Accommodate for different power of motors.
 		# In line of movement (with the battery ahead), the left motor is faster.
 		# In the IO tuple, the left motor is the second value.
@@ -18,18 +18,19 @@ class Motors:
 
 		"""
 		if direction == "left":
-			self.IO.setMotors(self.speed*self.FILTER_RIGHT, -self.speed*self.FILTER_LEFT)
-		elif direction == "right":
 			self.IO.setMotors(-self.speed*self.FILTER_RIGHT, self.speed*self.FILTER_LEFT)
+		elif direction == "right":
+			self.IO.setMotors(self.speed*self.FILTER_RIGHT, -self.speed*self.FILTER_LEFT)
 
 	def go(self):
-		print("Going straight ahead.")
+		print("[MOTORS] Going straight ahead.")
 		self.IO.setMotors(self.speed*self.FILTER_RIGHT,self.speed*self.FILTER_LEFT)
 
 	def back(self):
+		print("[MOTORS] Backing up.")
 		self.IO.setMotors(-self.speed*self.FILTER_RIGHT,-self.speed*self.FILTER_LEFT)
 
-	def turn(self, angle, direction, onSpot=True):
+	def turn(self, angle, direction, onSpot=False):
 		""" 
 		Turn to a specified angle. 
 		Positive numbers turn right.
@@ -38,23 +39,23 @@ class Motors:
 
 		"""
 
-		print("Turning {0} degrees {1}".format(angle, direction))
-
-		calibration = 90	# when you ask it to turn 90 how many degrees does it go
-		angle = (90/calibration*angle)
+		print("[MOTORS] Turning {0} degrees {1}.".format(angle, direction))
+		calibration = 95	# when you ask it to turn 90 how many degrees does it go
+		angle = (90/float(calibration)*float(angle))
 		t = (float(angle)/90) * 2.125	# 2.125 is the time it takes to turn 90 degrees
 		start = time.time()
 		end = time.time()
-		if onSpot==True:
+		if onSpot:
+			while end - start < t:
+				self._turn(direction)
+				end = time.time()
+			self.stop()
+		else:
 			self.stop()
 			while end - start < t:
 				self._turn(direction)
 				end = time.time()
 			self.go()
-		else:
-			while end - start < t:
-				self._turn(direction)
-				end = time.time()
 
 
 	def turnUntil(self, direction, callback, InterruptExecution, *param):
@@ -72,7 +73,7 @@ class Motors:
 				break
 
 	def stop(self):
-		print("Stopping.")
+		print("[MOTORS] Stopped.")
 		self.IO.setMotors(0,0)
 
 	def scan360():
@@ -80,7 +81,3 @@ class Motors:
 		Perform a full 360 degrees scan.
 
 		"""
-		
-class Servo:
-	def __init__(self, IO):
-		self.IO = IO

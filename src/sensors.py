@@ -31,7 +31,8 @@ class Sensors():
 		self.ports = {
 			"light": {},
 			"sonar": None,
-			"ir" :	 {}
+			"ir" :	 {},
+			"whiskers": {}
 		}
 		self.thresholds = {
 			"light": {},
@@ -41,20 +42,24 @@ class Sensors():
 		self.readings = {
 			"light": {},
 			"sonar": {},
-			"ir" :	 {}
+			"ir" :	 {},
+			"whiskers": {}
 		}
 
 		self.ports["sonar"] = 0
 		self.ports["ir"]["left"] = 1
 		self.ports["ir"]["right"] = 2
-		self.ports["light"]["left"] = 5
-		self.ports["light"]["right"] = 6
+		self.ports["light"]["left"] = 4
+		self.ports["light"]["right"] = 5
+		self.ports["whiskers"]["left"] = 3
+		self.ports["whiskers"]["right"] = 6
 
+		# change sonar threshold to be more sensitive
 		self.IO._interfaceKit.setSensorChangeTrigger(self.ports["sonar"],0)
 
 		self.thresholds["light"]["left"] = [220, 380]		# Provide exactly two values
 		self.thresholds["light"]["right"] = [100, 181]		# Provide exactly two values
-		self.thresholds["sonar"] = 15
+		self.thresholds["sonar"] = 20
 		self.thresholds["ir"]["left"] = 500
 		self.thresholds["ir"]["right"] = 500
 
@@ -68,6 +73,8 @@ class Sensors():
 		self.readings["light"]["right"] = analog[self.ports["light"]["right"]]
 		self.readings["ir"]["left"] = analog[self.ports["ir"]["left"]]
 		self.readings["ir"]["right"] = analog[self.ports["ir"]["right"]]
+		self.readings["whiskers"]["left"] = digital[self.ports["whiskers"]["left"]]
+		self.readings["whiskers"]["right"] = digital[self.ports["whiskers"]["right"]]
 
 	def light(self):
 		ground = None
@@ -106,6 +113,16 @@ class Sensors():
 					return "danger"
 			else:
 				return self.readings["ir"]["right"]
+
+	def whiskers(self, which):
+		if which == "left":
+			if self.readings["whiskers"]["left"]:
+				print("Left whisker waaaaa!")
+			return self.readings["whiskers"]["left"]
+		elif which == "right":
+			if self.readings["whiskers"]["right"]:
+				print("Right whisker ddddd huurts!")
+			return self.readings["whiskers"]["right"]
 
 
 	# random location

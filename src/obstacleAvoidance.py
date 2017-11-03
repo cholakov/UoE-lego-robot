@@ -1,3 +1,5 @@
+import time
+import random
 # If you see unexpected obstacle in front, stop. Look around with the sonar in what direction to continue.
 
 # Inform mapper that unexpected obstacle has been detected.
@@ -9,7 +11,6 @@ class InterruptExecution (Exception):
 
 class obstacleAvoidance():
 	def __init__(self, IO):
-		print("Obstacle avoidance initialized.")
 		self.IO = IO
 
 	def check(self, sensors, driver):
@@ -41,6 +42,16 @@ class obstacleAvoidance():
 				if sensors.ir("right") != "danger":
 					raise (InterruptExecution('Stop turning! Right IR sees a wall!'))
 			driver.motors.turnUntil("left", callback, InterruptExecution, sensors)
+
+		if sensors.whiskers("left"):
+			driver.motors.back()
+			time.sleep(random.uniform(0.8, 1.8))
+			driver.motors.go()
+
+		if sensors.whiskers("right"):
+			driver.motors.back()
+			time.sleep(random.uniform(0.8, 1.8))
+			driver.motors.go()
 
 
 
