@@ -33,7 +33,6 @@ class Toddler:
         t = distance/0.24   # equation is y = 22.8x but using 24 take rolling into account
 
 
-
         end = time.time()
 
 
@@ -57,7 +56,8 @@ class Toddler:
 
         print("Done 0.5m")
         self.IO.setMotors(0,0)
-##########################################
+
+        ##########################################
         
         while OK():
             # print(self.IO.getInputs())
