@@ -2,7 +2,7 @@ class Hall():
 	def __init__(self, IO):
 		self.IO = IO
 		self.DEFINITION = 17.8 # centimeters covered between two signals from the hall effect
-		self.travel_completed = None
+		
 		
 	def measure(self, distance):
 		
@@ -36,6 +36,10 @@ class Hall():
 class Sensors():
 	def __init__(self, IO):
 		self.IO = IO
+		self.travel_completed = None
+		self.ir_cutoff = 0.725   #allows for 2cm error on the last reading
+		self.sonar_cutoff = 1.01
+	
 
 		self.ports = {
 			"light": {},
@@ -166,7 +170,37 @@ class Sensors():
 
        		 self.travel_completed = True
 
+	def leftIRFunction(reading):	#4th order polynomial
+    		
+		coeff = [5.0957505421902e-11,-8.59430183258622e-08,5.2542571447069e-05,-0.0142193455565047,1.64345015579619]
+    		
+		distance = (coeff[0])*(reading)**4 +(coeff[1])*(reading)**3 + (coeff[2])*(reading)**2 +(coeff[3])*(reading) + coeff[4]
+    		
+		if distance > ir_cutoff:
+        		return none
+    		else:
+       			return distance
 
+	
+	def rightIRFunction(reading):	#4th order polynomial
+
+		coeff = [8.83754694140922e-11,-1.29800638753158e-07,6.84644266943875e-05,-0.0158039235439857,1.56949441416458]
+    		
+		distance = (coeff[0])*(reading)**4 +(coeff[1])*(reading)**3 + (coeff[2])*(reading)**2 +(coeff[3])*(reading) + coeff[4]
+    
+		if distance > ir_cutoff:
+        		return none
+   	 	else:
+        		return distance
+	
+	
+	def sonarFunction(reading):	#linear function
+    		
+		coeff = [0.0135544020217198,0.0337272044259271]
+
+		distance = coeff[0] * reading + coeff[1]
+    		return distance
+		
 	# random location
 	# 175 84
 	# 187 75
