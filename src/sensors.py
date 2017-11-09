@@ -2,7 +2,8 @@ class Hall():
 	def __init__(self, IO):
 		self.IO = IO
 		self.DEFINITION = 17.8 # centimeters covered between two signals from the hall effect
-
+		self.travel_completed = None
+		
 	def measure(self, distance):
 		
         distance = 0.5
@@ -69,6 +70,7 @@ class Sensors():
 		self.ports["light"]["right"] = 5
 		self.ports["whiskers"]["left"] = 3
 		self.ports["whiskers"]["right"] = 6
+		self.ports["hall"] =  7
 
 		# change sonar threshold to be more sensitive
 		self.IO._interfaceKit.setSensorChangeTrigger(self.ports["sonar"],0)
@@ -91,6 +93,7 @@ class Sensors():
 		self.readings["ir"]["right"] = analog[self.ports["ir"]["right"]]
 		self.readings["whiskers"]["left"] = digital[self.ports["whiskers"]["left"]]
 		self.readings["whiskers"]["right"] = digital[self.ports["whiskers"]["right"]]
+		self.readings["hall"] = digital[self.ports["hall"]]
 
 	def light(self):
 		ground = None
@@ -139,6 +142,37 @@ class Sensors():
 			if self.readings["whiskers"]["right"]:
 				print("Right whisker ddddd huurts!")
 			return self.readings["whiskers"]["right"]
+		
+	def distance_moved(self):   #returns true when the robot has moved 0.2m
+
+        	self.travel_completed = False
+
+
+        	t = 0.20/0.24  # time to go 20cm -- 0.2m/0.24   -- y = 24x
+
+        	rotations = 0.2 / 0.103044239
+
+        	
+        	self.timestampList.append(time.time())      # update timestampList with timestamp
+
+        	timetaken = self.timestampList[len(self.timestampList)] - self.timestampList[0]    #Find time taken, first value - last value - fist value of list
+
+        # read readings, take timestamp, save timestamp to self.timestampList
+        # time taken to move from self.timestampList -- most recent reading - first
+        # take 1 off rotations everytime hall effect is activated
+
+        	while rotations > 0 and (timetaken< t):  #if there are still rotations left and there is time still left
+            		self.timestampList.append(time.time())
+            		timetaken = self.timestampList[len(self.timestampList)] - self.timestampList[0] #calculates how long we have been moving for
+
+            		if self.readings["hall"]:        #if the hall effect value is true
+                		rotations -= rotations    # take one rotation off
+            		if rotations < 1 and timetaken < t:
+               			break		## reached 0.2m	
+            		while self.readings["hall"]:	# while hall effect is still true loop until next 0
+                		pass
+
+       		 self.travel_completed = True
 
 
 	# random location
