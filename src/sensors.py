@@ -6,19 +6,11 @@ class Hall():
 		
 	def measure(self, distance):
 		
-        	self.go()
+        	self.go()	#Motors were tested at speed of 60
 		
-        	filterLeft = 1.0
-        	filterRight = 0.7
-
-
-        	self.IO.setMotors(60*filterLeft , 60*filterRight)
 
         	t = distance/0.24   # equation is y = 22.8x but using 24 take rolling into account
-
-
-        
-
+		
 
         	rotations = distance / 0.103044239
 
@@ -29,17 +21,17 @@ class Hall():
           		end = time.time()
 
 
-            	digital = self.IO.getInputs()
-            	if digital[7] :        #if the hall effect value is true
-                	rotations = rotations - 1   # take one rotation off
-            	if rotations < 1 and (end-start) < t:
-                	print("Stopped at break point")
-                	break
-            	while digital[7]:
-                	pass
+            		digital = self.IO.getInputs()
+            		if digital[7] :        #if the hall effect value is true
+                		rotations = rotations - 1   # take one rotation off
+            		if rotations < 1 and (end-start) < t:
+                		#print("Stopped at break point")
+                		break
+            		while digital[7]:
+                		pass
 
 
-        self.stop()
+        	self.stop()
 
 class Sensors():
 	def __init__(self, IO):
