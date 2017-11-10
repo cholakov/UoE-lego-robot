@@ -1,22 +1,22 @@
-class Locator:
-	def __init__(self):
-		print("Localization in progress.")
-		self.x = None
-		self.y = None
-		self.theta = None
+# class Locator:
+# 	def __init__(self):
+# 		print("Localization in progress.")
+# 		self.x = None
+# 		self.y = None
+# 		self.theta = None
 
-	def set(self, x, y, theta):
-		self.x = x
-		self.y = y
-		self.theta = theta
+# 	def set(self, x, y, theta):
+# 		self.x = x
+# 		self.y = y
+# 		self.theta = theta
 
-	def pose(self):
-		"""
-		:return: (x,y,theta) in relation to the Arena Coordinate System
-		"""
+# 	def pose(self):
+# 		"""
+# 		:return: (x,y,theta) in relation to the Arena Coordinate System
+# 		"""
 
-		# obviously very dummy at this point
-		return((self.x, self.y, self.theta))
+# 		# obviously very dummy at this point
+# 		return((self.x, self.y, self.theta))
 
 # 2D localization for a small arena
 
@@ -29,14 +29,8 @@ def localize(arena, measurements, motions, sensor_right, move_right):
 	p = p0*ones((row, col))          
 	q = zeros((row, col))
 
-	# show(p)
-	# show(q)
-	# print(measurements)
-	# print(motions)
-
 	for step in range(len(measurements)):
 		U = motions[step]
-		
 		for i in range(len(p)): # iterate rows
 			xx=[]
 			for j in range(len(p[0])): # iterate columns
@@ -50,10 +44,14 @@ def localize(arena, measurements, motions, sensor_right, move_right):
 		p_sum=sum(p)
 		p = q/p_sum
 
-		print('\n Probability after motion, @step', step+1)
+		# print('\n Probability after motion, @step', step+1)
 		# show(p)
+
+		sonar = 2.9
+		std = 0.1
+
 		
-		# posterior = prior x probabitly after measurement
+		# posterior = [prior] X [probability after measurement]
 		for i in range(len(p)): # iterate rows
 			for j in range(len(p[0])): # iterate columns               
 				match = (measurements[step] == arena[i][j]) # True or False
@@ -61,11 +59,11 @@ def localize(arena, measurements, motions, sensor_right, move_right):
 				p[i][j] = (p[i][j] * (match * sensor_right + (1-match) * (1.0-sensor_right)))	
 				#print step, U, i, j
 		# p_sum=sum(p)
-		# print('p sum', p_sum)
-
 		p = p/p_sum  # normalize--> total probability theory
+		print('p sum', p_sum)
+
 		print('Probability after measurement')
-		# show(p)
+		show(p)
 	return p
 
 def show(p):
