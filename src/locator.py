@@ -38,7 +38,8 @@ def localize(arena, measurements, motions, sensor_right, move_right):
 				# i-U[0] -1/+1 square UP or DOWN, 
 				# j-U[1] -1/+1 square RIGHT or LEFT
 				# % len() evaluates to 0 on the edges of the arena
-				xx.append(move_right * p[(i-U[0]) % len(p)][(j-U[1]) % len(p[0])] + (1.0-move_right)*p[i][j] )
+				#        (    0.8    *  new location  [      UP/DOWN    ] [     RIGHT/LEFT]    ]  previous loc  (      0.2     )                 
+				xx.append(move_right *               p[(i-U[0]) % len(p)] [(j-U[1]) % len(p[0])] +              (1.0-move_right) * p[i][j])
 			q[i]=xx
 
 		p_sum=sum(p)
@@ -46,9 +47,6 @@ def localize(arena, measurements, motions, sensor_right, move_right):
 
 		# print('\n Probability after motion, @step', step+1)
 		# show(p)
-
-		sonar = 2.9
-		std = 0.1
 
 		
 		# posterior = [prior] X [probability after measurement]
