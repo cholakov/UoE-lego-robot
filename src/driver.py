@@ -38,8 +38,6 @@ class Driver():
 		self.hall.measure(500)
 		self.motors.stop()
 
-
-
 	def getUnstuck(arena):
 		"""
 		Recovery procedure after getting stuck.

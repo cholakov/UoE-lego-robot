@@ -3,6 +3,7 @@ from dijkstra import dijkstra, shortest_path
 from driver import Driver
 from obstacleAvoidance import obstacleAvoidance
 from sensors import Sensors
+from localization import Localization
 import time
 import numpy as np
 
@@ -17,48 +18,11 @@ class pathFinder():
 		self.target = target
 		self.IO = IO
 		self.OK = OK
-		self.obstacleAvoidance = obstacleAvoidance(IO)
+		self.obstacles = obstacleAvoidance(IO)
 		self.driver = Driver(IO, OK)
 		self.sensors = Sensors(IO)
+		self.location = Localization()
 
-	def pointAntenna(self, robot_x, robot_y, theta):
-		"""
-        o: opposite (height ground to ceiling)
-        a: adjacent (distance from location of the robot to the projection of the satellite on the ground)
-
-        """
-
-		satellite_x = -0.69
-		satellite_y = 0
-
-		x = np.arctan((robot_y - satellite_y) / (robot_x - satellite_x))
-		x = np.rad2deg(x)
-		p = 180 - 90 - x  # calculate residual angle to move after theta and 90 have been moved. Direction based on position relative to satellite
-
-		distance = theta + 90 + p
-
-		if (robot_x > satellite_x):
-			self.driver.motors.turn(distance, 'right', onSpot=True)
-		else:
-			self.driver.motors.turn(distance, 'left', onSpot=True)
-
-		o = 2.95
-		calibration = 7
-
-		a = np.power((robot_y - satellite_y),2) + np.power((satellite_x - robot_x),2)
-		a = np.sqrt(a)
-		self.IO.servoEngage()
-		self.IO.servoSet(0)
-		time.sleep(1.0)
-		angle = np.arctan(o / a)
-		angle = np.rad2deg(angle)
-		self.IO.servoSet(int(angle) - calibration)  # bit off because of the gear ratio = 7
-
-		print("Pointed antenna at angle " + str(angle))
-
-
-	def goHome(self):
-		print("goHome")
 
 	def goTo(self, arena, origin, target):
 		"""
@@ -123,6 +87,59 @@ class pathFinder():
 		print("Going from {0} to {1}, the shortest path is:".format(origin, target))
 		print(shortest_path(graph, origin, target))
 
+	def pointAntenna(self, robot_x, robot_y, theta):
+		"""
+        o: opposite (height ground to ceiling)
+        a: adjacent (distance from location of the robot to the projection of the satellite on the ground)
+
+        """
+
+		satellite_x = -0.69
+		satellite_y = 0
+
+		x = np.arctan((robot_y - satellite_y) / (robot_x - satellite_x))
+		x = np.rad2deg(x)
+		p = 180 - 90 - x  # calculate residual angle to move after theta and 90 have been moved. Direction based on position relative to satellite
+
+		distance = theta + 90 + p
+
+		if (robot_x > satellite_x):
+			self.driver.motors.turn(distance, 'right', onSpot=True)
+		else:
+			self.driver.motors.turn(distance, 'left', onSpot=True)
+
+		o = 2.95
+		calibration = 7
+
+		a = np.power((robot_y - satellite_y),2) + np.power((satellite_x - robot_x),2)
+		a = np.sqrt(a)
+		self.IO.servoEngage()
+		self.IO.servoSet(0)
+		time.sleep(1.0)
+		angle = np.arctan(o / a)
+		angle = np.rad2deg(angle)
+		self.IO.servoSet(int(angle) - calibration)  # bit off because of the gear ratio = 7
+
+		print("Pointed antenna at angle " + str(angle))
+
+	def checkForPOI(self):
+		analog = (self.IO.getSensors())
+		# print (analog[4])
+		# print (analog[5])
+		if(analog[4] > 380 or analog[5] > 181) and not pause:
+			print("Reflective tape found.")
+			self.driver.stop()
+			time.sleep(3)
+			pause = True
+		if(analog[4] < 380 and analog[5] < 181):
+			pause = False
+
+		# if self.sensors.light == 'silver':
+		# 	print("Reflective tape -- stopping!")
+		# 	self.driver.stop()
+		# 	time.sleep(3)
+		# 	self.driver.go()
+	
 	def explore(self):
 		""" 
 		Navigate the space avoiding obstacles.
@@ -137,25 +154,7 @@ class pathFinder():
 
 		while self.OK():
 			self.sensors.update()
-			self.obstacleAvoidance.check(self.sensors, self.driver)
-
-
-            # If we detect reflective tape
+			self.obstacles.check(self.sensors, self.driver)
+			self.location.update()
+			self.checkForPOI()
 			self.driver.go()
-			analog = (self.IO.getSensors())
-			# print (analog[4])
-			# print (analog[5])
-			if(analog[4] > 380 or analog[5] > 181) and not pause:
-				print("Reflective tape found.")
-				self.driver.stop()
-				time.sleep(3)
-				pause = True
-			if(analog[4] < 380 and analog[5] < 181):
-				pause = False
-
-
-			# if self.sensors.light == 'silver':
-			# 	print("Reflective tape -- stopping!")
-			# 	self.driver.stop()
-			# 	time.sleep(3)
-			# 	self.driver.go()
