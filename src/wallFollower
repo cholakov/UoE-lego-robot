@@ -1,0 +1,254 @@
+    200 lower - turn right
+    400 higher - turn left
+    sonar threshold
+
+    turned = []
+    x_distance = []
+    y_distance = []
+    def followWall(self):
+        self.IO.setMotors(100,100)
+        distance_measure()
+        poll reading
+        if reading < higher:
+            small_turn(left) #stay on track
+        elif reading < lower:
+            small_turn(left) #stay on track
+        elif sonar < threshold:
+            turning.append(-90)
+            turn left 90
+        elif whisker are activated:
+            go back
+        else:
+            go straight
+        if lightSensors > threshold:
+            stop
+            pointAntenna(self,turned)
+            turn back to original
+
+    def small_turn(self, direction):
+      print("Jolt turn")
+
+  		t = 0.05
+  		start = time.time()
+  		end = time.time()
+  			while end - start < t:
+          if direction == 'right':
+            self.IO.setMotors(100,70)
+  				elif direction == 'left':
+            self.IO.setMotors(70,100)
+  				end = time.time()
+
+    def go_back(self, direction):
+      print("Going back")
+
+  		t = 1.5
+  		start = time.time()
+  		end = time.time()
+  			while end - start < t:
+          self.IO.setMotors(-100,-100)
+  				end = time.time()
+
+    def turn90(self,direction):   #only used to turn 90 degrees, needs to update x_distance etc
+        self.IO.setMotors(0,0)
+        calibration = self.calibration	# when you ask it to turn 90 how many degrees does it go
+        angle = (90/float(calibration)*float(angle))
+        t = (floatmeasure(angle)/90) * 2.125	# 2.125 is the time it takes to turn 90 degrees
+        start = time.time()
+        end = time.time()
+        jolt = t/45
+        for i in range(jolt):
+            while end - start < t:
+              if direction == 'left':
+                self.IO.setMotors(0,100) #left
+              else:
+                self.IO.setMotors(100,0) #right
+              end = time.time()
+
+        self.IO.setMotors(100,100)
+
+    def turnPOI(self,direction):    #only used when turning towards POI and back
+        self.IO.setMotors(0,0)
+        calibration = self.calibration	# when you ask it to turn 90 how many degrees does it go
+        angle = (90/float(calibration)*float(angle))
+        t = (floatmeasure(angle)/90) * 2.125	# 2.125 is the time it takes to turn 90 degrees
+        start = time.time()
+        end = time.time()
+        jolt = t/20
+        for i in range(jolt):
+            while end - start < t:
+              if direction == 'left':
+                self.IO.setMotors(0,100) #left
+              else:
+                self.IO.setMotors(100,0) #right
+              end = time.time()
+        self.IO.setMotors(100,100)
+
+    def calculatePosition(self,turned,x_distance,y_distance):
+
+        leg = np.size(turned) #tells us which leg we are on         ####################### update the turn method, leg 1 +x,leg 2 +y etc and write POI turn
+        X = np.sum(x_distance)  #gives us x
+        y = np.sum(y_distance)  #gives us y
+        relative_poition = np.sum(turned)
+        if relative_position == -360  # if back in the orginal pose
+          relative_position = 0   #back to inline with origin
+
+        return X,y,relative_position  #relative_position is theta
+
+
+
+    def pointAntenna(self):
+        positionRelative = np.sum(turned)
+        add up turning angles- know our pose
+        measure distance with angles - know our location using trig and pythag
+
+    def pointAntenna(self,robot_x, robot_y, theta):
+  		"""
+          o: opposite (height ground to ceiling)
+          a: adjacent (distance from location of the robot to the projection of the satellite on the ground)
+
+          """
+
+  		satellite_x = -0.69
+  		satellite_y = 0
+
+  		x = np.arctan((robot_y - satellite_y) / (robot_x - satellite_x))
+  		x = np.rad2deg(x)
+  		p = 180 - 90 - x  # calculate residual angle to move after theta and 90 have been moved. Direction based on position relative to satellite
+
+  		distance = theta + 90 + p
+
+  		if (robot_x > satellite_x):
+  			self.driver.motors.turn(distance, 'right', onSpot=True)  ##################### turn methods need to be changed
+  		else:
+  			self.driver.motors.turn(distance, 'left', onSpot=True)   ################## turn methods need to be changed
+
+  		o = 2.95
+  		calibration = 7
+
+  		a = np.power((robot_y - satellite_y),2) + np.power((satellite_x - robot_x),2)
+  		a = np.sqrt(a)
+  		self.IO.servoEngage()
+  		self.IO.servoSet(0)
+  		time.sleep(1.0)
+  		angle = np.arctan(o / a)
+  		angle = np.rad2deg(angle)
+  		self.IO.servoSet(int(angle) - calibration)  # bit off because of the gear ratio = 7
+
+  		print("Pointed antenna at angle " + str(angle))
+
+
+
+
+      def measure(self, distance):
+
+
+
+
+            	self.go()	#Motors were tested at speed of 60
+
+
+            	t = distance/0.24   # equation is y = 22.8x but using 24 take rolling into account
+
+
+            	rotations = distance / 0.103044239
+
+            	start = time.time()
+    			end = time.time()
+
+            	while rotations > 0 and (end-start <t):  #if there are still rotations left and there is time still left
+              		end = time.time()
+
+
+                	digital = self.IO.getInputs()
+                	if digital[7] :        #if the hall effect value is true
+                    	rotations = rotations - 1   # take one rotation off
+                	if rotations < 1 and (end-start) < t:
+                    	#print("Stopped at break point")
+                    	break
+                	while digital[7]:
+                    	pass
+
+
+            	self.stop()
+
+              leg = np.size(turned)
+              if leg%2 == 0:
+                #On horizonal
+                if leg == 0 or leg == 4
+                  x_distance.append(distance)  #+x
+                else:
+                  x_distance.append(-distance)  #-x
+              else:
+                #on vertical
+                if leg == 1 or leg == 5
+                  y_distance.append(distance) #+y
+                else:
+                  y_distance.append(-distance) #-y
+
+################################################################################### measure needs to be the same idea as below
+
+
+                  def distance_moved(self):   #returns true when the robot has moved 0.2m
+
+                        	self.travel_completed = False
+
+
+                        	t = 0.20/0.24  # time to go 20cm -- 0.2m/0.24   -- y = 24x
+
+                        	rotations = 0.2 / 0.103044239
+
+
+                        	self.timestampList.append(time.time())      # update timestampList with timestamp
+
+                        	timetaken = self.timestampList[len(self.timestampList)] - self.timestampList[0]    #Find time taken, first value - last value - fist value of list
+
+                        # read readings, take timestamp, save timestamp to self.timestampList
+                        # time taken to move from self.timestampList -- most recent reading - first
+                        # take 1 off rotations everytime hall effect is activated
+
+                        	while rotations > 0 and (timetaken< t):  #if there are still rotations left and there is time still left
+                            		self.timestampList.append(time.time())
+                            		timetaken = self.timestampList[len(self.timestampList)] - self.timestampList[0] #calculates how long we have been moving for
+
+                            		if self.readings["hall"]:        #if the hall effect value is true
+                                		rotations -= rotations    # take one rotation off
+                            		if rotations < 1 and timetaken < t:
+                               			break		## reached 0.2m
+                            		while self.readings["hall"]:	# while hall effect is still true loop until next 0
+                                		pass
+
+                       		 self.travel_completed = True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            #
